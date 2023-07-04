@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QPlay.Catalog.Service", "src\QPlay.Catalog.Service\QPlay.Catalog.Service.csproj", "{A1230FB5-C588-4F0B-9313-420010C55033}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QPlay.Catalog.Contracts", "src\QPlay.Catalog.Contracts\QPlay.Catalog.Contracts.csproj", "{D6771845-3E2B-476D-B3B2-2D71CCDA286D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1230FB5-C588-4F0B-9313-420010C55033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1230FB5-C588-4F0B-9313-420010C55033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1230FB5-C588-4F0B-9313-420010C55033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1230FB5-C588-4F0B-9313-420010C55033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6771845-3E2B-476D-B3B2-2D71CCDA286D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6771845-3E2B-476D-B3B2-2D71CCDA286D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6771845-3E2B-476D-B3B2-2D71CCDA286D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6771845-3E2B-476D-B3B2-2D71CCDA286D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3CFB601-BCED-4C99-BD99-3772DCB6F99F}
+	EndGlobalSection
+EndGlobal

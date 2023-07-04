@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using QPlay.Catalog.Contracts;
 using QPlay.Catalog.Service.Extensions;
 using QPlay.Catalog.Service.Models.Dtos;
 using QPlay.Catalog.Service.Models.Entities;
@@ -17,43 +18,26 @@ public class ItemsController : ControllerBase
 {
     private const string AdminRole = "Admin";
 
-    private readonly IRepository<Item> itemRepository;
-    private static int requestCounter = 0;
+    private readonly IRepository<Item> itemsRepository;
+    private readonly IPublishEndpoint publishEndpoint;
 
-    public ItemsController(IRepository<Item> itemRepository)
+    public ItemsController(IRepository<Item> itemsRepository, IPublishEndpoint publishEndpoint)
     {
-        this.itemRepository = itemRepository;
+        this.itemsRepository = itemsRepository;
+        this.publishEndpoint = publishEndpoint;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
     {
-        requestCounter++;
-        Console.WriteLine($"Request {requestCounter}: Starting.");
-
-        if (requestCounter <= 2)
-        {
-            Console.WriteLine($"Request {requestCounter}: Delaying.");
-            await Task.Delay(TimeSpan.FromSeconds(10));
-        }
-
-        if (requestCounter <= 4)
-        {
-            Console.WriteLine($"Request {requestCounter}: 500 (Internal Server Error).");
-            return StatusCode(500);
-        }
-
-        IEnumerable<ItemDto> items = (await itemRepository.GetAllAsync())?.Select(item => item.AsDto());
-
-        Console.WriteLine($"Request {requestCounter}: 200 (OK).");
-
+        IEnumerable<ItemDto> items = (await itemsRepository.GetAllAsync())?.Select(item => item.AsDto());
         return Ok(items);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDto>> GetByIdAsync([FromRoute] Guid id)
     {
-        Item item = await itemRepository.GetAsync(id);
+        Item item = await itemsRepository.GetAsync(id);
         if (item == null) return NotFound();
 
         return Ok(item);
@@ -70,7 +54,15 @@ public class ItemsController : ControllerBase
             CreatedDate = DateTimeOffset.UtcNow
         };
 
-        await itemRepository.CreateAsync(item);
+        await itemsRepository.CreateAsync(item);
+
+        await publishEndpoint.Publish(new CatalogItemCreated
+        (
+            item.Id,
+            item.Name,
+            item.Description,
+            item.Price
+        ));
 
         return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
@@ -78,14 +70,22 @@ public class ItemsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult<ItemDto>> PutAsync([FromRoute] Guid id, [FromBody] UpdateItemDto updateItemDto)
     {
-        Item existingItem = await itemRepository.GetAsync(id);
+        Item existingItem = await itemsRepository.GetAsync(id);
         if (existingItem == null) return NotFound();
 
         existingItem.Name = updateItemDto.Name;
         existingItem.Description = updateItemDto.Description;
         existingItem.Price = updateItemDto.Price;
 
-        await itemRepository.UpdateAsync(existingItem);
+        await itemsRepository.UpdateAsync(existingItem);
+
+        await publishEndpoint.Publish(new CatalogItemUpdated
+        (
+            existingItem.Id,
+            existingItem.Name,
+            existingItem.Description,
+            existingItem.Price
+        ));
 
         return NoContent();
     }
@@ -93,10 +93,15 @@ public class ItemsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
     {
-        Item item = await itemRepository.GetAsync(id);
+        Item item = await itemsRepository.GetAsync(id);
         if (item == null) return NotFound();
 
-        await itemRepository.RemoveAsync(item.Id);
+        await itemsRepository.RemoveAsync(item.Id);
+
+        await publishEndpoint.Publish(new CatalogItemDeleted
+        (
+            item.Id
+        ));
 
         return NoContent();
     }

@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using QPlay.Catalog.Service.Extensions;
 using QPlay.Catalog.Service.Models.Dtos;
 using QPlay.Catalog.Service.Models.Entities;
 using QPlay.Common.Repositories.Interfaces;

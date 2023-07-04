@@ -20,7 +20,7 @@ public class ItemsController : ControllerBase
     private readonly IRepository<Item> itemRepository;
     private static int requestCounter = 0;
 
-    public ItemsController(IRepository<Item> itemRepository, IPublishEndpoint publishEndpoint)
+    public ItemsController(IRepository<Item> itemRepository)
     {
         this.itemRepository = itemRepository;
     }
@@ -29,11 +29,11 @@ public class ItemsController : ControllerBase
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
     {
         requestCounter++;
-        Console.WriteLine($"Request {requestCounter}: Starting...");
+        Console.WriteLine($"Request {requestCounter}: Starting.");
 
         if (requestCounter <= 2)
         {
-            Console.WriteLine($"Request {requestCounter}: Delaying...");
+            Console.WriteLine($"Request {requestCounter}: Delaying.");
             await Task.Delay(TimeSpan.FromSeconds(10));
         }
 

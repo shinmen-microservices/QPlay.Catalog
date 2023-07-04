@@ -1,7 +1,6 @@
 using QPlay.Common.Entities.Interfaces;
 using System;
 
-
 namespace QPlay.Catalog.Service.Models.Entities;
 
 public class Item : IEntity

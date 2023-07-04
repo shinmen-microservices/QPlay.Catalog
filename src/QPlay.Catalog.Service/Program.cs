@@ -1,9 +1,7 @@
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QPlay.Catalog.Service.Extensions;
-using QPlay.Common.MongoDB;
 
 namespace QPlay.Catalog.Service;
 

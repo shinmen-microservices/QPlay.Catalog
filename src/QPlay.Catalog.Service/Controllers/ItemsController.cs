@@ -1,6 +1,8 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPlay.Catalog.Contracts;
+using QPlay.Catalog.Service.Constants;
 using QPlay.Catalog.Service.Extensions;
 using QPlay.Catalog.Service.Models.Dtos;
 using QPlay.Catalog.Service.Models.Entities;
@@ -16,8 +18,6 @@ namespace QPlay.Catalog.Service.Controllers;
 [Route("items")]
 public class ItemsController : ControllerBase
 {
-    private const string AdminRole = "Admin";
-
     private readonly IRepository<Item> itemsRepository;
     private readonly IPublishEndpoint publishEndpoint;
 
@@ -28,6 +28,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policies.READ)]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
     {
         IEnumerable<ItemDto> items = (await itemsRepository.GetAllAsync())?.Select(item => item.AsDto());
@@ -35,6 +36,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Policies.READ)]
     public async Task<ActionResult<ItemDto>> GetByIdAsync([FromRoute] Guid id)
     {
         Item item = await itemsRepository.GetAsync(id);
@@ -44,6 +46,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policies.WRITE)]
     public async Task<ActionResult<ItemDto>> PostAsync([FromBody] CreateItemDto createItemDto)
     {
         Item item = new()
@@ -68,6 +71,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policies.WRITE)]
     public async Task<ActionResult<ItemDto>> PutAsync([FromRoute] Guid id, [FromBody] UpdateItemDto updateItemDto)
     {
         Item existingItem = await itemsRepository.GetAsync(id);
@@ -91,6 +95,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policies.WRITE)]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
     {
         Item item = await itemsRepository.GetAsync(id);

@@ -4,9 +4,9 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
-	  <PackageDescription>A common library for the QPlay microservices.</PackageDescription>
-	  <Company>Shinmen</Company>
-	  <Authors>Shinmen Dokkodo</Authors>
+	<PackageDescription>Contracts for catalog messages exchange.</PackageDescription>
+	<Company>Shinmen</Company>
+	<Authors>Shinmen Dokkodo</Authors>
   </PropertyGroup>
 
 </Project>

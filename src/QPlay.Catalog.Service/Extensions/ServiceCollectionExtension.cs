@@ -5,7 +5,7 @@ using QPlay.Common.MongoDB;
 
 namespace QPlay.Catalog.Service.Extensions;
 
-public static class ServiceCollectionExtensions
+public static class ServiceCollectionExtension
 {
     public static IServiceCollection ConfigureMongo(this IServiceCollection services)
     {

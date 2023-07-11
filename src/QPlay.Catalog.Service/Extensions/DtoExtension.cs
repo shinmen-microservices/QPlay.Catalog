@@ -3,11 +3,11 @@ using QPlay.Catalog.Service.Models.Entities;
 
 namespace QPlay.Catalog.Service.Extensions;
 
-public static class DtoExtensions
+public static class DtoExtension
 {
     public static ItemDto AsDto(this Item item)
     {
-        return new ItemDto
+        return new
         (
             item.Id,
             item.Name,

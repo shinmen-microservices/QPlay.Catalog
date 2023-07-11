@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace QPlay.Catalog.Service.Extensions;
 
-public static class ApplicationBuilderExtensions
+public static class ApplicationBuilderExtension
 {
     private const string AllowedOriginSetting = "AllowedOrigin";
 

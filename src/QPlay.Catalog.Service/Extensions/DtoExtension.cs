@@ -7,13 +7,6 @@ public static class DtoExtension
 {
     public static ItemDto AsDto(this Item item)
     {
-        return new
-        (
-            item.Id,
-            item.Name,
-            item.Description,
-            item.Price,
-            item.CreatedDate
-        );
+        return new(item.Id, item.Name, item.Description, item.Price, item.CreatedDate);
     }
 }

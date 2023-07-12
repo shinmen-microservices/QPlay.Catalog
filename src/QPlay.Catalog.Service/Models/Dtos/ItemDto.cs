@@ -2,8 +2,7 @@
 
 namespace QPlay.Catalog.Service.Models.Dtos;
 
-public record ItemDto
-(
+public record ItemDto(
     Guid Id,
     string Name,
     string Description,

@@ -31,7 +31,9 @@ public class ItemsController : ControllerBase
     [Authorize(Policies.READ)]
     public async Task<ActionResult<IEnumerable<ItemDto>>> GetAsync()
     {
-        IEnumerable<ItemDto> items = (await itemsRepository.GetAllAsync())?.Select(item => item.AsDto());
+        IEnumerable<ItemDto> items = (await itemsRepository.GetAllAsync())?.Select(
+            item => item.AsDto()
+        );
         return Ok(items);
     }
 
@@ -40,7 +42,8 @@ public class ItemsController : ControllerBase
     public async Task<ActionResult<ItemDto>> GetByIdAsync([FromRoute] Guid id)
     {
         Item item = await itemsRepository.GetAsync(id);
-        if (item == null) return NotFound();
+        if (item == null)
+            return NotFound();
 
         return Ok(item);
     }
@@ -49,33 +52,34 @@ public class ItemsController : ControllerBase
     [Authorize(Policies.WRITE)]
     public async Task<ActionResult<ItemDto>> PostAsync([FromBody] CreateItemDto createItemDto)
     {
-        Item item = new()
-        {
-            Name = createItemDto.Name,
-            Description = createItemDto.Description,
-            Price = createItemDto.Price,
-            CreatedDate = DateTimeOffset.UtcNow
-        };
+        Item item =
+            new()
+            {
+                Name = createItemDto.Name,
+                Description = createItemDto.Description,
+                Price = createItemDto.Price,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
 
         await itemsRepository.CreateAsync(item);
 
-        await publishEndpoint.Publish(new CatalogItemCreated
-        (
-            item.Id,
-            item.Name,
-            item.Description,
-            item.Price
-        ));
+        await publishEndpoint.Publish(
+            new CatalogItemCreated(item.Id, item.Name, item.Description, item.Price)
+        );
 
         return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
 
     [HttpPut("{id}")]
     [Authorize(Policies.WRITE)]
-    public async Task<ActionResult<ItemDto>> PutAsync([FromRoute] Guid id, [FromBody] UpdateItemDto updateItemDto)
+    public async Task<ActionResult<ItemDto>> PutAsync(
+        [FromRoute] Guid id,
+        [FromBody] UpdateItemDto updateItemDto
+    )
     {
         Item existingItem = await itemsRepository.GetAsync(id);
-        if (existingItem == null) return NotFound();
+        if (existingItem == null)
+            return NotFound();
 
         existingItem.Name = updateItemDto.Name;
         existingItem.Description = updateItemDto.Description;
@@ -83,13 +87,14 @@ public class ItemsController : ControllerBase
 
         await itemsRepository.UpdateAsync(existingItem);
 
-        await publishEndpoint.Publish(new CatalogItemUpdated
-        (
-            existingItem.Id,
-            existingItem.Name,
-            existingItem.Description,
-            existingItem.Price
-        ));
+        await publishEndpoint.Publish(
+            new CatalogItemUpdated(
+                existingItem.Id,
+                existingItem.Name,
+                existingItem.Description,
+                existingItem.Price
+            )
+        );
 
         return NoContent();
     }
@@ -99,14 +104,12 @@ public class ItemsController : ControllerBase
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
     {
         Item item = await itemsRepository.GetAsync(id);
-        if (item == null) return NotFound();
+        if (item == null)
+            return NotFound();
 
         await itemsRepository.RemoveAsync(item.Id);
 
-        await publishEndpoint.Publish(new CatalogItemDeleted
-        (
-            item.Id
-        ));
+        await publishEndpoint.Publish(new CatalogItemDeleted(item.Id));
 
         return NoContent();
     }

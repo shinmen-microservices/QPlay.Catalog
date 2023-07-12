@@ -23,17 +23,23 @@ public static class ServiceCollectionExtension
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(Policies.READ, policy =>
-            {
-                policy.RequireRole(Roles.ADMIN);
-                policy.RequireClaim(Claims.SCOPE, Claims.READ, Claims.FULL);
-            });
+            options.AddPolicy(
+                Policies.READ,
+                policy =>
+                {
+                    policy.RequireRole(Roles.ADMIN);
+                    policy.RequireClaim(Claims.SCOPE, Claims.READ, Claims.FULL);
+                }
+            );
 
-            options.AddPolicy(Policies.WRITE, policy =>
-            {
-                policy.RequireRole(Roles.ADMIN);
-                policy.RequireClaim(Claims.SCOPE, Claims.WRITE, Claims.FULL);
-            });
+            options.AddPolicy(
+                Policies.WRITE,
+                policy =>
+                {
+                    policy.RequireRole(Roles.ADMIN);
+                    policy.RequireClaim(Claims.SCOPE, Claims.WRITE, Claims.FULL);
+                }
+            );
         });
 
         return services;

@@ -1,6 +1,6 @@
 ﻿namespace QPlay.Catalog.Service.Constants;
 
-public class Roles
+public static class Roles
 {
     public const string ADMIN = "Admin";
 }

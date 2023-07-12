@@ -1,6 +1,6 @@
 ﻿namespace QPlay.Catalog.Service.Constants;
 
-public class Claims
+public static class Claims
 {
     public const string SCOPE = "scope";
     public const string WRITE = "catalog.writeaccess";

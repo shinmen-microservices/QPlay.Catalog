@@ -2,7 +2,4 @@
 
 namespace QPlay.Catalog.Contracts;
 
-public record CatalogItemDeleted
-(
-    Guid ItemId
-);
+public record CatalogItemDeleted(Guid ItemId);

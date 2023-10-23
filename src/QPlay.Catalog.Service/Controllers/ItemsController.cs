@@ -1,4 +1,8 @@
-﻿using MassTransit;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QPlay.Catalog.Contracts;
@@ -7,10 +11,6 @@ using QPlay.Catalog.Service.Extensions;
 using QPlay.Catalog.Service.Models.Dtos;
 using QPlay.Catalog.Service.Models.Entities;
 using QPlay.Common.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QPlay.Catalog.Service.Controllers;
 

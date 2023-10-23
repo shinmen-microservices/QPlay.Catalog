@@ -23,8 +23,7 @@ public static class ServiceCollectionExtension
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(
-                Policies.READ,
+            options.AddPolicy(Policies.READ,
                 policy =>
                 {
                     policy.RequireRole(Roles.ADMIN);
@@ -32,8 +31,7 @@ public static class ServiceCollectionExtension
                 }
             );
 
-            options.AddPolicy(
-                Policies.WRITE,
+            options.AddPolicy(Policies.WRITE,
                 policy =>
                 {
                     policy.RequireRole(Roles.ADMIN);
